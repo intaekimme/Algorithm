@@ -19,17 +19,20 @@ public class Main {
         for (int i = arr.length - 1; i >= 0; i--) {
             // 스택이 비어있지 않다면 top부터 체크
             if (!stack.isEmpty()) {
+                // (1) 스택의 top이 현재 들어가려는 원소보다 작으면 스택에서 pop
+                // (2) 스택에서 pop을 하면 stack이 비는 순간이 발생할 수 있음. 이 때 top 조사식이 isEmpty보다 먼저 있으면
+                // EmptyStackException 발생. 따라서 isEmpty를 먼저 조사.
                 while (!stack.isEmpty() && stack.peek() <= arr[i]) {
                     stack.pop();
                 }
-                if (stack.isEmpty())
-                    res.addFirst(-1);
-                else
-                    res.addFirst(stack.peek());
+                if (stack.isEmpty()) // 위에서 스택에서 pop을 계속해 isEmpty로 탈출한 경우 (2)
+                    res.addFirst(-1); // 스택이 비었이으므로 -1
+                else // 스택의 top이 현재 들어가는 원소보다 커서 탈출한 경우 (1)
+                    res.addFirst(stack.peek()); // 스택의 top이 정답
             } else { // 스택이 비어있으면
                 res.addFirst(-1);
             }
-            stack.push(arr[i]);
+            stack.push(arr[i]); // 스택에 원소를 넣어줌.
         }
 
         StringBuilder sb = new StringBuilder();
